@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html tml lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+<title>Nike Admin</title>
+</head>
+<body>
+	<div class="container">
+		<div style="margin-bottom: 20px">
+			<div>
+				<h1 class="m-0">Chỉnh sửa sản phẩm</h1>
+			</div>
+		</div>
+		<div>
+			<form th:action="@{/product/save_changes}" th:object="${product}"
+				method="post" enctype="multipart/form-data">
+				<div>
+					<input type="hidden" name="id" th:field="*{id}" th:value="@{product.id}">
+				</div>
+				<div class="m-3">
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Danh mục</label>
+						</div>
+						<div>
+							<select th:field="*{category}" class="form-control" required>
+								<th:block th:each="category : ${listCategory}">
+									<option th:text="${category.name}" th:value="${category.id}"/>
+								</th:block>
+							</select>
+						</div>
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Tên</label>
+						</div>
+						<div>
+							<input type="text" placeholder="Nhập tên sản phẩm" th:field="*{name}"
+								class="form-control" required>
+						</div>
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Ảnh</label>
+						</div>
+						<div>
+							<input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpg">
+						</div>
+						<!-- <div>
+							<img id="thumbnail" alt="Product Preview">
+						</div> -->
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Đơn giá</label>
+						</div>
+						<div>
+							<input type="text" placeholder="Nhập đơn giá" th:field="*{price}"
+								class="form-control" required>
+						</div>
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Thời hạn bảo hành (Tháng)</label>
+						</div>
+						<div>
+							<input type="text" placeholder="Nhập thời hạn bảo hành"
+								th:field="*{insurance}" class="form-control" required>
+						</div>
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Số lượng</label>
+						</div>
+						<div>
+							<input type="text" placeholder="Nhập số lượng"
+								th:field="*{quantity}" class="form-control" required>
+						</div>
+					</div>
+					<div style="display: flex;">
+						<div style="margin-right: 5px">
+							<label class="col-form-label">Mô tả</label>
+						</div>
+						<div>
+							<input type="text" placeholder="Mô tả sản phẩm"
+								th:field="*{description}" class="form-control" required>
+						</div>
+					</div>
+				</div>
+				<div>
+					<button class="btn" type="submit"
+						style="background-color: black; color: white; margin-left: 258px; margin-top: 10px">Save changes</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</body>
+</html>
