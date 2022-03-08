@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html tml lang="en" xmlns:th="http://www.thymeleaf.org">
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -897,6 +897,9 @@
 	  	</form>
 	  	
 	  </div>
+	  <div>
+	  	<h4>Tổng sản phẩm: [[${totalProduct}]] </h4>
+	  </div>
 		<div class="text-center" style="padding: 1rem">
 			<table class="table table-bordered">
 				<thead class="thead-dark">
@@ -933,6 +936,12 @@
 					</th:block>
 				</tbody>
 			</table>
+		</div>
+		<div>
+			<span th:each="i : ${#numbers.sequence(1,totalPage)}">
+				<a th:if="${i != currentPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+			</span>
 		</div>
 	</section>
     <!-- /.content -->

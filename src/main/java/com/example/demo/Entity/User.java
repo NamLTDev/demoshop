@@ -1,11 +1,14 @@
 package com.example.demo.Entity;
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,13 +28,25 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
-	@Column
+	@Column()
 	private String username;
 	
-	@Column
+	@Column(nullable = false)
 	private String password;
-
+	
+	@Column
+	private String name;
+	
+	@Column(unique = true)
+	private String phone;
+	
+	@Column
+	private String address;
+	
+	@ManyToOne
+	@JoinColumn(name="role_id")
+	private Roles roles;
 	
 }

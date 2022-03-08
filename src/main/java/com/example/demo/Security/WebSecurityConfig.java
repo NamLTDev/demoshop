@@ -13,20 +13,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import com.example.demo.UserDetails.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private DataSource dataSource;
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new CustomUserDetailsService();
 	}
+	
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -41,6 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		return authProvider;
 	}
+	
+	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,13 +50,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/product", "/list_users","/category").authenticated()
+			.antMatchers("/product", "/list_users","/category","customer_list").hasAuthority("ADMIN")
+			.antMatchers("/lich-su-mua-hang").hasAuthority("USER")
+			.antMatchers("/cart").permitAll()
 			.anyRequest().permitAll()
 			.and()
 			.formLogin().loginPage("/login")
 				.usernameParameter("username")
-				.defaultSuccessUrl("/product")
-				.permitAll()
+				.passwordParameter("password")
+				.defaultSuccessUrl("/")
 			.and()
 			.logout().permitAll().logoutSuccessUrl("/login").logoutUrl("/logout")
 			;

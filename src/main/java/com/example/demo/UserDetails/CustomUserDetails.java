@@ -1,14 +1,22 @@
 package com.example.demo.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.demo.Entity.Roles;
 import com.example.demo.Entity.User;
 
 public class CustomUserDetails implements UserDetails {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User user;
 	
 	public CustomUserDetails(User user) {
@@ -17,10 +25,16 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		Roles roles = user.getRoles();
+		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(roles.getRoleName()));
+		return authorities;
 	}
 
+	public Integer getID() {
+		return user.getId();
+	}
+	
 	@Override
 	public String getPassword() {
 		return user.getPassword();

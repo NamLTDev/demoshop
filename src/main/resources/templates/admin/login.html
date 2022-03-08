@@ -11,12 +11,14 @@
 		<div class="header">
 			<h1 style="margin-top: 40px;">ADMIN LOGIN</h1>
 		</div>
-		<div>
-			<p style="margin-top: 130px" class="text-warning">You've been logged out</p>
+		<div style="margin-left: 60px">
+			<img src="img/logo.png">
+		</div>
+		<div id="text-center">
+			<p class="text-warning">You've been logged out</p>
 		</div>
 		<form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto; border: none">
 			<div>
-				
 				<p>
 					<input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
 				</p>
