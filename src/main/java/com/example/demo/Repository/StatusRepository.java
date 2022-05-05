@@ -5,4 +5,8 @@ import com.example.demo.Entity.Status;
 
 public interface StatusRepository extends JpaRepository<Status, Integer> {
 
+	
+	Status findStatusByStatusName(String statusName);
+	
+	Status findStatusById(int id);
 }

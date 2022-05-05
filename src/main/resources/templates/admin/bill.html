@@ -286,7 +286,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DANH SÁCH SẢN PHẨM</h1>
+            <h1>DANH SÁCH ĐƠN HÀNG</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -300,9 +300,6 @@
 
     <!-- Main content -->
     <section class="content">
-		<div style="margin-bottom: 20px">
-	      <a th:href="@{product/create}">Thêm sản phẩm mới</a>
-	  </div>
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
@@ -317,7 +314,7 @@
         </div>
         <div class="card-body">
 					<div>
-						<form th:action="@{/product}">
+						<!-- <form th:action="@{/product}">
 							<div>
 								<div style="margin-bottom: 5px">
 									<input type="text" name="proname" placeholder="Nhập từ khóa...">
@@ -339,64 +336,108 @@
 									</button>
 								</div>
 							</div>
-						</form>
+						</form> -->
 					</div>
 		</div>
         <!-- /.card-body -->
       
         <!-- /.card-footer-->
         <div>
-        <div>
-	  	<h4>Tổng sản phẩm: [[${totalProduct}]] </h4>
-	  </div>
 						<div class="text-center" style="padding: 1rem">
-							<table class="table table-bordered">
+							<table class="table table-bordered" id="billTable">
 								<thead class="thead-dark">
-									<th>MÃ SP</th>
-									<th>TÊN SẢN PHẨM</th>
-									<th>HÃNG</th>
-									<th>ẢNH</th>
-									<th>ĐƠN GIÁ</th>
-									<th>MÔ TẢ</th>
-									<th>BẢO HÀNH (Tháng)</th>
-									<th>SỐ LƯỢNG</th>
+									<th>CHI TIẾT</th>
+									<th>TỔNG TIỀN(VND)</th>
+									<th>PHƯƠNG THỨC TT</th>
+									<th>NGÀY XUẤT ĐƠN</th>
+									<th>SĐT</th>
+									<th>TÊN KH</th>
+									<th>ĐỊA CHỈ</th>
+									<th>TRẠNG THÁI</th>
 									<th></th>
 								</thead>
 								<tbody>
-									<th:block th:each="product:${listProducts}">
+									<th:block th:each="bill, status : ${bills}">
 										<tr>
-											<td>[[${product.id}]]</td>
-											<td>[[${product.name}]]</td>
-											<td>[[${product.brand}]]</td>
-											<td><img th:src="@{${product.ProductImagePath}}"
-												style="width: 100px"></td>
-											<td>[[${product.price}]]</td>
-											<td>[[${product.description}]]</td>
-											<td>[[${product.insurance}]]</td>
-											<td>[[${product.quantity}]]</td>
-											<td>
-												<div
-													style="display: flex; justify-content: space-around; text-align: center;">
-													<a class="fas fa-edit"
-														th:href="@{'/product/edit/' + ${product.id}}"
-														style="margin-right: 20px"></a> <a
-														class="fas fa-trash-alt" style="color: red;"
-														th:href="@{'/product/delete/' + ${product.id}}"></a>
-												</div>
-											</td>
+											<th><a class="link-detail" data-toggle="modal"
+													th:data-target="'#billDetailModal' + ${bill.id}"
+													th:rowNumber="${bill.id}">Chi tiết đơn</a>
+													<div class="modal billDetailModal"
+														th:id="'billDetailModal' + ${bill.id}" tabindex="-1"
+														role="dialog"
+														style="width: 900px; margin: auto; padding: 0 !important;
+														 left: 50%; top: 50%; transform: translate(-50%, -50%); position: absolute;"
+													>
+														<div class="modal-dialog">
+															<div class="modal-content" style="width: fit-content">
+																<div class="modal-header">
+																	<h4 class="modal-title">CHI TIẾT ĐƠN HÀNG</h4>
+																</div>
+																<div class="modal-body" style="width: 700px; margin: auto;">
+																	<table id="billDetailTable" style="width: 100%; margin: auto">
+																		<thead class="thead-dark">
+																		<tr>
+																			<th scope="col">Tên SP</th>
+																			<th scope="col">ĐƠN GIÁ</th>
+																			<th scope="col">SỐ LƯỢNG</th>
+																			<th scope="col">THÀNH TIỀN</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																	</tbody>																
+																	</table>
+																</div>
+															</div>													
+														</div>
+													</div>
+												</th>
+											<td>[[*{bill.total}]]</td>
+											<td>[[*{bill.payment}]]</td>
+											<td>[[*{bill.buyDate}]]</td>					
+											<td>[[*{bill.phone}]]</td>
+											<td>[[*{bill.user.name}]]</td>
+											<td>[[*{bill.address}]]</td>
+											<td th:id="'statusAdmin'+${bill.id}">[[*{bill.status.statusName}]]</td>
+											<td
+												th:unless="${bill.status.statusName == 'Hủy đơn'} OR ${bill.status.statusName == 'Đã nhận hàng'}"><a
+												href="" class="fa fa-pencil link-edit" data-toggle="modal"
+												th:data-target="'#editBillModal'+${bill.id}">Cập nhật</a>
+												<div class="modal" th:id="'editBillModal'+${bill.id}"
+													tabindex="-1" role="dialog" style="height: 500px;">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h4 class="modal-title">Sửa trạng thái</h4>
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+															</div>
+															<div class="modal-body">
+																<form id="editBillStatusForm" class="editBill"
+																	th:rowNumber="${bill.id}">
+																	<input type="text" name="id" id="editBillStatusId"
+																		class="form-control mb-4" th:value="${bill.id}"
+																		hidden="hidden">
+																	<div class="custom-file mb-4">
+																		<select th:id="'editBillStatus'+${bill.id}"
+																			name="statusName" required="required">
+																			<option th:value="${bill.status.id}"
+																				th:text="${bill.status.statusName}">
+																			<option th:each="status , count : ${status2}"
+																				th:value="${status.id}"
+																				th:text="${status.statusName}">
+																		</select>
+																	</div>
+																	<button class="btn btn-info btn-block" type="submit">edit</button>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div></td>
 										</tr>
 									</th:block>
 								</tbody>
 							</table>
 						</div>
-						<div class="text-center">
-							<div class="pagination" style="display: flex; justify-content: center; margin-bottom: 5px">
-								<span th:each="i : ${#numbers.sequence(1,totalPage)}"> 
-									<a th:if="${i != currentPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-									<span th:unless="${i != currentPage}"><a style="text-decoration: none" class="active">[[${i}]]</a></span>
-								</span>							
-							</div>
-						</div>
+						
 				</div>
       </div>
       <!-- /.card -->
@@ -429,5 +470,14 @@
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script type="text/javascript">
+		var contextPath = "[[@{/}]]";
+		var csrfHeader = "[[${_csrf.headerName}]]";
+		var csrfToken = "[[${_csrf.token}]]";
+	</script>
+	<script th:src="@{/js/productAction.js}"></script>
+	<script th:src="@{/js/userAction.js}"></script>
+	<script th:src="@{/js/billAdmin.js}"></script>
+	<script th:src="@{/js/statisticAction.js}"></script>
 </body>
 </html>

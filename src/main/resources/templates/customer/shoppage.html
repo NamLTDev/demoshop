@@ -72,11 +72,11 @@
 								<li class="dropdown" ><a class="active"><i class="fa fa-user"></i> Tài khoản<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu" >
                                         <li><a href="">Thông tin</a></li>
-										<li><a href="">Đơn hàng</a></li>
+										<li><a th:href="@{/bill_list}">Đơn hàng</a></li>
                                     </ul>
 								</li>
 									
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+								<li><a th:href="@{/bill_list}"><i class="fa fa-crosshairs"></i>Đơn hàng</a></li>
 								<li><a th:href="@{/cart}"><i class="fa fa-shopping-cart"></i> Giỏ</a></li>
 								<li><a th:href="@{/logout}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
 							</ul>

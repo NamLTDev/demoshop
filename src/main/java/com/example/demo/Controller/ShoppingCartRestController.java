@@ -57,4 +57,5 @@ public class ShoppingCartRestController {
 		
 		return "The product has been removed from your cart";
 	}
+	
 }

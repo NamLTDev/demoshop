@@ -286,7 +286,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DANH SÁCH SẢN PHẨM</h1>
+            <h1>DANH SÁCH ĐƠN HÀNG</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -300,103 +300,54 @@
 
     <!-- Main content -->
     <section class="content">
-		<div style="margin-bottom: 20px">
-	      <a th:href="@{product/create}">Thêm sản phẩm mới</a>
-	  </div>
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Tìm kiếm</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-   
-          </div>
-        </div>
-        <div class="card-body">
-					<div>
-						<form th:action="@{/product}">
-							<div>
-								<div style="margin-bottom: 5px">
-									<input type="text" name="proname" placeholder="Nhập từ khóa...">
-								</div>
-								<div style="margin-bottom: 5px">
-									<select name="catname" class="form-control" style="width: 16%">
-										<option disabled hidden selected>Phân loại sản phẩm</option>
-										<option th:each="catname:${listCat}"
-											th:value="${catname.name}" th:text="${catname.name}">
-										</option>
-									</select>
-								</div>
-								<div>
-									<button class="btn btn-secondary" style="background: #007BFF; width: 80px" type="submit">
-										<i class="fas fa-search fa-fw"></i>
-									</button>
-									<button class="btn btn-secondary" style=" width: 80px; margin-left: 25px" type="reset">
-										<i class="fas fa-redo-alt"></i>
-									</button>
-								</div>
-							</div>
-						</form>
+     <div class="col-12">
+					<div>Chọn tháng:</div>
+					<select name="month" id="month" class="col-sm-6" style="width: fit-content">
+						<option th:value="1">1</option>
+						<option th:value="2">2</option>
+						<option th:value="3">3</option>
+						<option th:value="4">4</option>
+						<option th:value="5">5</option>
+						<option th:value="6">6</option>
+						<option th:value="7">7</option>
+						<option th:value="8">8</option>
+						<option th:value="9">9</option>
+						<option th:value="10">10</option>
+						<option th:value="11">11</option>
+						<option th:value="12">12</option>
+					</select> <br />
+					<div>Chọn năm:</div>
+					<select name="year" id="year" class="col-sm-6" style="width: fit-content">
+						<option th:value="2020">2020</option>
+						<option th:value="2021">2021</option>
+						<option th:value="2022">2022</option>
+					</select> <br /> <br />
+					<button id="statistic" class="col-sm-6" style="width: fit-content">Xem thống kê doanh thu</button>
+					<br /> <br />
+					<div
+						style="text-align: center; font-weight: bold; font-size: 20px;"
+						id="billsByMonthAndYearTitle"></div>
+					<div class="col-sm-12" style="text-align: center;">
+						<table style="text-align: center;" class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">CHI TIẾT</th>
+									<th scope="col">GIÁ(VND)</th>
+									<th scope="col">PHƯƠNG THỨC THANH TOÁN</th>
+									<th scope="col">NGÀY MUA</th>
+									<th scope="col">SĐT KHÁCH HÀNG</th>
+									<th scope="col">TÊN KHÁCH HÀNG</th>
+									<th scope="col">ĐỊA CHỈ</th>
+									<th scope="col">TRẠNG THÁI</th>
+								</tr>
+							</thead>
+							<tbody id="tbody">
+							</tbody>
+						</table>
 					</div>
-		</div>
-        <!-- /.card-body -->
-      
-        <!-- /.card-footer-->
-        <div>
-        <div>
-	  	<h4>Tổng sản phẩm: [[${totalProduct}]] </h4>
-	  </div>
-						<div class="text-center" style="padding: 1rem">
-							<table class="table table-bordered">
-								<thead class="thead-dark">
-									<th>MÃ SP</th>
-									<th>TÊN SẢN PHẨM</th>
-									<th>HÃNG</th>
-									<th>ẢNH</th>
-									<th>ĐƠN GIÁ</th>
-									<th>MÔ TẢ</th>
-									<th>BẢO HÀNH (Tháng)</th>
-									<th>SỐ LƯỢNG</th>
-									<th></th>
-								</thead>
-								<tbody>
-									<th:block th:each="product:${listProducts}">
-										<tr>
-											<td>[[${product.id}]]</td>
-											<td>[[${product.name}]]</td>
-											<td>[[${product.brand}]]</td>
-											<td><img th:src="@{${product.ProductImagePath}}"
-												style="width: 100px"></td>
-											<td>[[${product.price}]]</td>
-											<td>[[${product.description}]]</td>
-											<td>[[${product.insurance}]]</td>
-											<td>[[${product.quantity}]]</td>
-											<td>
-												<div
-													style="display: flex; justify-content: space-around; text-align: center;">
-													<a class="fas fa-edit"
-														th:href="@{'/product/edit/' + ${product.id}}"
-														style="margin-right: 20px"></a> <a
-														class="fas fa-trash-alt" style="color: red;"
-														th:href="@{'/product/delete/' + ${product.id}}"></a>
-												</div>
-											</td>
-										</tr>
-									</th:block>
-								</tbody>
-							</table>
-						</div>
-						<div class="text-center">
-							<div class="pagination" style="display: flex; justify-content: center; margin-bottom: 5px">
-								<span th:each="i : ${#numbers.sequence(1,totalPage)}"> 
-									<a th:if="${i != currentPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-									<span th:unless="${i != currentPage}"><a style="text-decoration: none" class="active">[[${i}]]</a></span>
-								</span>							
-							</div>
-						</div>
+					<div
+						style="color: black; font-size: 30px; font-weight: bold; text-align: right;"
+						id="statisticResult" class="col-sm-12"></div>
 				</div>
       </div>
       <!-- /.card -->
@@ -429,5 +380,14 @@
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script type="text/javascript">
+		var contextPath = "[[@{/}]]";
+		var csrfHeader = "[[${_csrf.headerName}]]";
+		var csrfToken = "[[${_csrf.token}]]";
+	</script>
+	<script th:src="@{/js/productAction.js}"></script>
+	<script th:src="@{/js/userAction.js}"></script>
+	<script th:src="@{/js/billAction.js}"></script>
+	<script th:src="@{/js/statisticAction.js}"></script>
 </body>
 </html>

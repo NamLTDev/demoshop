@@ -37,7 +37,7 @@ public class Product {
 	private String image;
 	
 	@Column
-	private float price;
+	private int price;
 	
 	@Column
 	private String description;
@@ -54,6 +54,9 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
+	
+	@Column
+	private int number;
 	
 	//Duong dan den file luu anh de hien thi len file HTML
 	@Transient
